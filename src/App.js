@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import FlexGrow from './Components/header/header';
-
+import { bodyHeader, FlexGrow } from './Components/header/header';
+import fileUploadPage from './Pages/fileUploadPg';
 
 
 function App() {
   return (
-    <FlexGrow />
+    <fileUploadPage />
+
+
   );
 }
-
-
 export default App;
