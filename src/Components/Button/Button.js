@@ -30,6 +30,8 @@ const BodyHdrbutton = styled.button` //바디 상단헤더 버튼
  padding-right : 35 px;
  border-radius: 20 px;
  border-color: 1 px #7c685c;
+ border:none;
+ outline:none;
  display: inline-flex;
  justify-content: flex-end;
  margin-right: 30 px;
@@ -45,9 +47,9 @@ const BodyHdrbutton = styled.button` //바디 상단헤더 버튼
  `;
 
 
-function BodyHdrbutton({ children, ...rest }) {
+function BodyHdrbutt({ children, ...rest }) {
     return <BodyHdrbutton {...rest}>{children}</BodyHdrbutton>;
 }
 
-export default BodyHdrbutton;
+export { BodyHdrbutton };
 
