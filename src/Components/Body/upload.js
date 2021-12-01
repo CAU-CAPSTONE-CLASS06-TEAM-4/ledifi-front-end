@@ -52,5 +52,5 @@ const UploadArea = styled.div`
 `;
 
 const VideoInput = styled.input`
-    //display: none;
+    display: none;
 `;

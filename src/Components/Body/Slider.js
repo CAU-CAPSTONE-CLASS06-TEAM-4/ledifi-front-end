@@ -7,23 +7,20 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const CustomSlider = styled(Slider)(({ theme }) => ({
   '& .MuiSlider-thumb': {
-    backgroundColor: '#fff' 
+    backgroundColor: '#fff'
   },
   '& .MuiSlider-track': {
-    color : '#80A9E7',
+    color: '#80A9E7',
   },
   '& .MuiSlider-rail': {
     color: '#d8d8d8',
   },
 }));
 
-export default function InputSlider() {
-  const [value, setValue] = React.useState(30);
+export default function InputSlider({ setSensitivity }) {
+  const [value, setValue] = React.useState(3);
 
-  const handleSliderChange = (event, newValue) => {
-    console.log("??");
-    setValue(newValue);
-  };
+
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
@@ -33,7 +30,8 @@ export default function InputSlider() {
     <SliderStyle>
       <CustomSlider
         value={typeof value === 'number' ? value : 0}
-        onChange={handleSliderChange}
+        max={60}
+        onChange={(e, value) => { setValue(value); setSensitivity(e, value) }}
       />
       <InputStyle>
         {value}

@@ -5,56 +5,131 @@ import styled from 'styled-components';
 import Loading from './loading';
 import VideoPlayer from './VideoPlayer';
 import { VideocamTwoTone } from '@mui/icons-material';
+import axios from 'axios';
+import RBody from './RBody';
 
-
-function Controller({seek}) {
+function Controller({ seek }) {
     const [step, setStep] = useState(0);
     const [video, setVideo] = useState(null);
+    const [videofile, setVideofile] = useState(null);
+    const [result, setResult] = useState([]);
+    const [fps, setFps] = useState(1);
+    const [second, setSecond] = useState(3);
 
     const videoUploader = (e) => {
-        setVideo((URL.createObjectURL(e))); 
-        setStep(2);
+        setVideofile(e);
+        setVideo((URL.createObjectURL(e)));
+        setStep(1);
+        //console.log(e);
+        const frm = new FormData()
+        frm.append('file', e)
+        frm.append('second', second)
+        axios.post('fileUpload', frm, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }).then(
+            (response) => {
+                let result_data = response.data.slice(1);
+                setFps(response.data[0]);
+                setResult(result_data);
+                setStep(2);
+            }
+
+        );
+
+    }
+
+    const setSensitivity = (e, value) => {
+        setSecond(value);
+    }
+
+    const requestAgain = () => {
+        setStep(1);
+        const frm = new FormData()
+        frm.append('file', videofile)
+        frm.append('second', second)
+        axios.post('fileUpload', frm, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }).then(
+            (response) => {
+                let result_data = response.data.slice(1);
+                setFps(response.data[0]);
+                setResult(result_data);
+                setStep(2);
+            }
+
+        );
+
     }
 
     const GetPage = () => {
-        switch(step) {
-            case 0 :
-                return <Upload videoHandler = {videoUploader}/>;
-            case 1 :
-                return <Loading/>;
-            case 2 :
-                return <VideoPlayer videoFile = {video} seek = {seek}/>;
-            default :
-                return <Upload/>;
+        switch (step) {
+            case 0:
+                return <Upload videoHandler={videoUploader} />;
+            case 1:
+                return <Loading />;
+            case 2:
+                return <VideoPlayer videoFile={video} seek={seek} />;
+            default:
+                return <Upload />;
         }
     }
 
     const StepUi = () => {
         return <StepUiStyle>
-            {Array.from(Array(3).keys()).map((index) => 
-                <StepCircle key = {index} color = {index === step ? "#80A9E7" : '#A4A4A4'}/>
+            {Array.from(Array(3).keys()).map((index) =>
+                <StepCircle key={index} color={index === step ? "#80A9E7" : '#A4A4A4'} />
             )}
         </StepUiStyle>;
     }
 
     return (
-        <BodyStyle>
-            <Header>
-                <TitleInput
-                    type = "text" 
-                    placeholder = "영상 제목을 입력해주세요" 
-                    maxLength = {26} 
-                />
-            </Header>
-            <GetPage/>
-            <StepUi/>
-        </BodyStyle>
+        <BodyDiv>
+            <BodyStyle>
+                <LBodyStyle>
+                    <Header>
+                        <TitleInput
+                            type="text"
+                            placeholder="영상 제목을 입력해주세요"
+                            maxLength={26}
+                        />
+                    </Header>
+                    <GetPage />
+                    <StepUi />
+                </LBodyStyle>
+                <RBody result={result} fps={fps} setSensitivity={setSensitivity} requestAgain={requestAgain} step={step} />
+            </BodyStyle>
+        </BodyDiv>
     );
 
 }
 export default Controller;
 
 
+const BodyDiv = styled.div`
+    width : 100%;
+    padding-left : 30px;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+`;
+
+
+const BodyStyle = styled.div`
+    width :100%;
+    height : 100vh;
+    background: #364965;
+    border-radius: 50px 0 0 50px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`;
 
 const StepCircle = styled.div`
     width: 15px;
@@ -69,14 +144,15 @@ const StepUiStyle = styled.div`
     align-items: center;
     justify-content: space-between;
 `
-const BodyStyle = styled.div`
-    width: 100%;
+const LBodyStyle = styled.div`
+    width: 65%;
     height: 100%;
-    margin-bottom: 50px;
+    padding : 35px;
+    border-right: 1px solid #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 `;
 
 const Header = styled.div`

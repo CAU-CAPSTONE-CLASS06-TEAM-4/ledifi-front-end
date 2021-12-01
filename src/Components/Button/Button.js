@@ -39,5 +39,26 @@ export function BodyHeaderButton({ text }) {
 }
 
 
+const RequestResultButtonStyle = styled.button`
+    width: 100%;
+    border-radius: 20px;
+    border: 2px solid white;
+    padding : 15px 10px 15px 10px;
+    background-color: #FFFFFF2E;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+    align-items : center;
+    justify-content: center;
+`;
+
+
+export default function RequestResultButton({ text, click }) {
+    return <RequestResultButtonStyle onClick={click}>{text}</RequestResultButtonStyle>;
+}
+
 
 

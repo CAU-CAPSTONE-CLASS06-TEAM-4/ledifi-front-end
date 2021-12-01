@@ -5,18 +5,14 @@ import RBody from './RBody';
 
 
 function Body() {
-    const [seek, setSeek] = useState(0);
-    const handleSeek = (e) => {
-        setSeek(e);
-    }
     return (
         <BodyDiv>
             <BodyStyle>
-                <LBody seek = {seek}/>
-                <RBody controlSeek = {handleSeek}/>
+                <LBody />
+                <RBody />
             </BodyStyle>
         </BodyDiv>
-        
+
     );
 
 }

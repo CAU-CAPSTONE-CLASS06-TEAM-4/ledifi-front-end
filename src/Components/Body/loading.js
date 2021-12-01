@@ -1,11 +1,11 @@
 import React from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import loading from '../../images/reload.svg';
 function Loading() {
     return (
         <LoadingArea>
-           <span>영상을 분석중입니다</span>
-           <LoadingImg src = {loading} alt = ""/>
+            <span>영상을 분석중입니다</span>
+            <LoadingImg src={loading} alt="" />
         </LoadingArea>
     );
 
@@ -21,7 +21,7 @@ const LoadingArea = styled.div`
     }
 
     width: 100%;
-    height: 500px;
+    height: 80%;
     border: 3px solid #80A9E7;
     border-radius: 30px;
 
